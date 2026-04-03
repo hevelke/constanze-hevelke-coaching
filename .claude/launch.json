@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "coaching-website",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8080", "--directory", "C:\\Users\\hevel\\source\\repos\\constanze-hevelke-coaching"],
+      "port": 8080
+    }
+  ]
+}

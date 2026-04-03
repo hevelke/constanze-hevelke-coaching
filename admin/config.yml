@@ -1,0 +1,137 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images"
+public_folder: "/images"
+
+locale: "de"
+
+collections:
+  # ---------- Site Settings ----------
+  - name: "settings"
+    label: "Seiteneinstellungen"
+    files:
+      - name: "site"
+        label: "Allgemeine Einstellungen"
+        file: "content/settings.json"
+        format: "json"
+        fields:
+          - { label: "Seitentitel", name: "siteTitle", widget: "string" }
+          - { label: "Meta-Beschreibung", name: "metaDescription", widget: "text" }
+
+  # ---------- Hero Section ----------
+  - name: "hero"
+    label: "Hero-Bereich"
+    files:
+      - name: "hero"
+        label: "Hero"
+        file: "content/hero.json"
+        format: "json"
+        fields:
+          - { label: "Titel", name: "title", widget: "string" }
+          - { label: "Untertitel", name: "subtitle", widget: "string" }
+          - { label: "Text", name: "text", widget: "text" }
+          - label: "Buttons"
+            name: "buttons"
+            widget: "list"
+            fields:
+              - { label: "Beschriftung", name: "label", widget: "string" }
+              - { label: "Link", name: "url", widget: "string" }
+
+  # ---------- About Section ----------
+  - name: "about"
+    label: "Ueber mich"
+    files:
+      - name: "about"
+        label: "Ueber mich"
+        file: "content/about.json"
+        format: "json"
+        fields:
+          - { label: "Titel", name: "title", widget: "string" }
+          - { label: "Lead-Text", name: "lead", widget: "text" }
+          - { label: "Inhalt", name: "body", widget: "markdown" }
+
+  # ---------- Angebote / Packages ----------
+  - name: "angebote"
+    label: "Angebote"
+    files:
+      - name: "packages"
+        label: "Care-Pakete"
+        file: "content/angebote.json"
+        format: "json"
+        fields:
+          - label: "Pakete"
+            name: "packages"
+            widget: "list"
+            max: 3
+            fields:
+              - { label: "Name", name: "name", widget: "string" }
+              - { label: "Beschreibung", name: "description", widget: "text" }
+              - label: "Leistungen"
+                name: "features"
+                widget: "list"
+                field: { label: "Leistung", name: "feature", widget: "string" }
+              - { label: "Preis", name: "price", widget: "string" }
+
+  # ---------- Methoden Section ----------
+  - name: "methoden"
+    label: "Methoden"
+    files:
+      - name: "methoden"
+        label: "Methoden"
+        file: "content/methoden.json"
+        format: "json"
+        fields:
+          - { label: "Titel", name: "title", widget: "string" }
+          - { label: "Lead-Text", name: "lead", widget: "text" }
+          - label: "Methoden"
+            name: "items"
+            widget: "list"
+            max: 3
+            fields:
+              - { label: "Nummer", name: "number", widget: "string" }
+              - { label: "Titel", name: "title", widget: "string" }
+              - { label: "Beschreibung", name: "description", widget: "text" }
+
+  # ---------- Quote Section ----------
+  - name: "quote"
+    label: "Zitat"
+    files:
+      - name: "quote"
+        label: "Zitat"
+        file: "content/quote.json"
+        format: "json"
+        fields:
+          - { label: "Zitat-Text", name: "text", widget: "text" }
+          - { label: "Autor/in", name: "author", widget: "string" }
+
+  # ---------- Instagram Section ----------
+  - name: "instagram"
+    label: "Instagram"
+    files:
+      - name: "instagram"
+        label: "Instagram-Beitraege"
+        file: "content/instagram.json"
+        format: "json"
+        fields:
+          - label: "Beitraege"
+            name: "items"
+            widget: "list"
+            max: 6
+            fields:
+              - { label: "Bild", name: "image", widget: "image" }
+              - { label: "Link-URL", name: "url", widget: "string" }
+
+  # ---------- Contact Section ----------
+  - name: "contact"
+    label: "Kontakt"
+    files:
+      - name: "contact"
+        label: "Kontaktdaten"
+        file: "content/contact.json"
+        format: "json"
+        fields:
+          - { label: "E-Mail", name: "email", widget: "string" }
+          - { label: "Telefon", name: "phone", widget: "string" }
+          - { label: "Standort", name: "location", widget: "string" }
