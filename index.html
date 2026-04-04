@@ -15,7 +15,7 @@
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="#hero" class="nav-logo">Constanze Hevelke Coaching</a>
+            <a href="#hero" class="nav-logo" id="nav-logo">Constanze Hevelke Coaching</a>
             <button class="nav-toggle" id="navToggle" aria-label="Menü öffnen">
                 <span></span>
                 <span></span>
@@ -35,12 +35,12 @@
     <section class="hero" id="hero">
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <p class="hero-subtitle">Individuell. Kreativ. Anders.</p>
-            <h1 class="hero-title">Dein Business<br><em>umdenken</em></h1>
-            <p class="hero-text">Klarheit, kreative Freiheit und Selbstbestimmung für Dich und Dein Business</p>
+            <p class="hero-subtitle" id="hero-subtitle">Individuell. Kreativ. Anders.</p>
+            <h1 class="hero-title"><span id="hero-title-text">Dein Business</span><br><em id="hero-title-em">umdenken</em></h1>
+            <p class="hero-text" id="hero-text">Klarheit, kreative Freiheit und Selbstbestimmung für Dich und Dein Business</p>
             <div class="hero-buttons">
-                <a href="#kontakt" class="btn btn-primary">Kostenloses Erstgespräch</a>
-                <a href="#about" class="btn btn-secondary">Mehr erfahren</a>
+                <a href="#kontakt" class="btn btn-primary" id="hero-btn1">Kostenloses Erstgespräch</a>
+                <a href="#about" class="btn btn-secondary" id="hero-btn2">Mehr erfahren</a>
             </div>
         </div>
         <div class="hero-scroll">
@@ -54,15 +54,17 @@
         <div class="container">
             <div class="about-grid">
                 <div class="about-image">
-                    <img src="images/20260306_103911.jpg" alt="Constanze Hevelke - Business Coach" class="about-photo">
+                    <img src="images/20260306_103911.jpg" alt="Constanze Hevelke - Business Coach" class="about-photo" id="about-photo">
                     <div class="about-accent"></div>
                 </div>
                 <div class="about-content">
                     <span class="section-tag">Über mich</span>
                     <h2 class="section-title">Hallo, ich bin Constanze</h2>
-                    <p class="about-lead">Du bist hier genau richtig, wenn du als Unternehmer:in Veränderungen in deinem Business anstoßen, Neues implementieren oder frischen Wind in dein Unternehmen bringen möchtest.</p>
-                    <p>Ob Branding, Positionierung oder Prozesse — ich unterstütze dich dabei, dein Business klar aufzustellen und kreative Lösungen zu finden, die wirklich zu dir passen. Gemeinsam schauen wir, wo du stehst, was dich bremst und wie du den nächsten Schritt gehst.</p>
-                    <p>Mein Ansatz ist praxisnah und individuell. Kein Schema F, sondern Coaching, das sich an dein Business und deine Persönlichkeit anpasst. Ich bringe Energie, Ideen und Struktur mit — den Rest machen wir zusammen.</p>
+                    <p class="about-lead" id="about-lead">Du bist hier genau richtig, wenn du als Unternehmer:in Veränderungen in deinem Business anstoßen, Neues implementieren oder frischen Wind in dein Unternehmen bringen möchtest.</p>
+                    <div id="about-body">
+                        <p>Ob Branding, Positionierung oder Prozesse — ich unterstütze dich dabei, dein Business klar aufzustellen und kreative Lösungen zu finden, die wirklich zu dir passen. Gemeinsam schauen wir, wo du stehst, was dich bremst und wie du den nächsten Schritt gehst.</p>
+                        <p>Mein Ansatz ist praxisnah und individuell. Kein Schema F, sondern Coaching, das sich an dein Business und deine Persönlichkeit anpasst. Ich bringe Energie, Ideen und Struktur mit — den Rest machen wir zusammen.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -73,10 +75,10 @@
         <div class="container">
             <div class="section-header">
                 <span class="section-tag">Angebote</span>
-                <h2 class="section-title">Das kann ich dir anbieten</h2>
-                <p class="section-subtitle">Jeder Mensch ist einzigartig — deshalb biete ich individuell abgestimmte Coaching-Pakete an.</p>
+                <h2 class="section-title" id="angebote-title">Das kann ich dir anbieten</h2>
+                <p class="section-subtitle" id="angebote-subtitle">Jeder Mensch ist einzigartig — deshalb biete ich individuell abgestimmte Coaching-Pakete an.</p>
             </div>
-            <div class="angebote-grid">
+            <div class="angebote-grid" id="angebote-grid">
                 <!-- Emergency Care Package -->
                 <div class="angebot-card">
                     <div class="angebot-icon">
@@ -135,9 +137,9 @@
             <div class="methoden-grid">
                 <div class="methoden-content">
                     <span class="section-tag">Mein Ansatz</span>
-                    <h2 class="section-title">Methoden &amp; Philosophie</h2>
-                    <p class="methoden-lead">Mein Coaching ist praxisnah und direkt umsetzbar. Ich arbeite mit dir an den drei Säulen, die dein Business wirklich voranbringen.</p>
-                    <div class="methoden-list">
+                    <h2 class="section-title" id="methoden-title">Methoden &amp; Philosophie</h2>
+                    <p class="methoden-lead" id="methoden-lead">Mein Coaching ist praxisnah und direkt umsetzbar. Ich arbeite mit dir an den drei Säulen, die dein Business wirklich voranbringen.</p>
+                    <div class="methoden-list" id="methoden-list">
                         <div class="methode-item">
                             <div class="methode-number">01</div>
                             <div>
@@ -162,8 +164,7 @@
                     </div>
                 </div>
                 <div class="methoden-image">
-                    <!-- ADMIN: Bild hier austauschen — Quelle: Unsplash (lizenzfrei) -->
-                    <img src="images/methoden-kreativ.jpg" alt="Notizbuch und Stift — kreative Planung" class="methoden-photo">
+                    <img src="images/methoden-kreativ.jpg" alt="Notizbuch und Stift — kreative Planung" class="methoden-photo" id="methoden-photo">
                 </div>
             </div>
         </div>
@@ -173,8 +174,8 @@
     <section class="section quote-section">
         <div class="container">
             <blockquote class="big-quote">
-                <p>&bdquo;Die größte Entdeckung meiner Generation ist, dass ein Mensch sein Leben ändern kann, indem er seine Einstellung ändert.&ldquo;</p>
-                <cite>– William James</cite>
+                <p>&bdquo;<span id="quote-text">Die größte Entdeckung meiner Generation ist, dass ein Mensch sein Leben ändern kann, indem er seine Einstellung ändert.</span>&ldquo;</p>
+                <cite id="quote-author">– William James</cite>
             </blockquote>
         </div>
     </section>
@@ -185,10 +186,9 @@
             <div class="section-header">
                 <span class="section-tag">Instagram</span>
                 <h2 class="section-title">Folge mir auf Instagram</h2>
-                <p class="section-subtitle">Impulse, Gedanken und Einblicke in meine Arbeit</p>
+                <p class="section-subtitle" id="instagram-subtitle">Impulse, Gedanken und Einblicke in meine Arbeit</p>
             </div>
-            <div class="instagram-grid">
-                <!-- ADMIN: Instagram-Post-Links hier pflegen. Bild-URL und Link zum Post eintragen. -->
+            <div class="instagram-grid" id="instagram-grid">
                 <a href="https://www.instagram.com/p/DQQ_L69iEA-/?img_index=1" target="_blank" rel="noopener" class="instagram-item"><img src="images/Post 1.png" alt="Instagram Post 1"></a>
                 <a href="https://www.instagram.com/p/DUx7QIOCCf_/?img_index=1" target="_blank" rel="noopener" class="instagram-item"><img src="images/Post 2.png" alt="Instagram Post 2"></a>
                 <a href="https://www.instagram.com/p/DSFGMbqiOaI/?img_index=1" target="_blank" rel="noopener" class="instagram-item"><img src="images/Post 3.png" alt="Instagram Post 3"></a>
@@ -197,7 +197,7 @@
                 <a href="https://www.instagram.com/p/DWZH9eRiGHu/?img_index=1" target="_blank" rel="noopener" class="instagram-item"><img src="images/Post 6.png" alt="Instagram Post 6"></a>
             </div>
             <div class="text-center" style="margin-top: 2rem;">
-                <a href="https://www.instagram.com/constanze.hevelke_coaching/" target="_blank" rel="noopener" class="btn btn-secondary">@constanze.hevelke_coaching</a>
+                <a href="https://www.instagram.com/constanze.hevelke_coaching/" target="_blank" rel="noopener" class="btn btn-secondary" id="instagram-profile-link">@constanze.hevelke_coaching</a>
             </div>
         </div>
     </section>
@@ -208,33 +208,33 @@
             <div class="kontakt-grid">
                 <div class="kontakt-info">
                     <span class="section-tag">Kontakt</span>
-                    <h2 class="section-title">Lass uns sprechen</h2>
-                    <p>Du möchtest mehr über mein Coaching erfahren oder ein unverbindliches Erstgespräch vereinbaren? Ich freue mich auf deine Nachricht!</p>
+                    <h2 class="section-title" id="contact-title">Lass uns sprechen</h2>
+                    <p id="contact-text">Du möchtest mehr über mein Coaching erfahren oder ein unverbindliches Erstgespräch vereinbaren? Ich freue mich auf deine Nachricht!</p>
                     <div class="kontakt-details">
                         <div class="kontakt-item">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                             <div>
                                 <strong>E-Mail</strong>
-                                <a href="mailto:kontakt@constanze-hevelke.de">kontakt@constanze-hevelke.de</a>
+                                <a href="mailto:kontakt@constanze-hevelke.de" id="contact-email-link">kontakt@constanze-hevelke.de</a>
                             </div>
                         </div>
                         <div class="kontakt-item">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                             <div>
                                 <strong>Telefon</strong>
-                                <a href="tel:+4915562374107">+49 (0) 155 62374107</a>
+                                <a href="tel:+4915562374107" id="contact-phone-link">+49 (0) 155 62374107</a>
                             </div>
                         </div>
                         <div class="kontakt-item">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                             <div>
                                 <strong>Standort</strong>
-                                <span>Neumarkt i.d.Opf.</span>
+                                <span id="contact-location">Neumarkt i.d.Opf.</span>
                             </div>
                         </div>
                     </div>
                     <div class="social-links">
-                        <a href="https://www.instagram.com/constanze.hevelke_coaching/" target="_blank" rel="noopener" aria-label="Instagram" class="social-link">
+                        <a href="https://www.instagram.com/constanze.hevelke_coaching/" target="_blank" rel="noopener" aria-label="Instagram" class="social-link" id="contact-instagram-link">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
                         </a>
                     </div>
@@ -284,8 +284,8 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <a href="#hero" class="footer-logo">Constanze Hevelke Coaching</a>
-                    <p>Business-Coaching für Unternehmer:innen — Branding, Prozesse und kreative Entwicklung.</p>
+                    <a href="#hero" class="footer-logo" id="footer-logo">Constanze Hevelke Coaching</a>
+                    <p id="footer-description">Business-Coaching für Unternehmer:innen — Branding, Prozesse und kreative Entwicklung.</p>
                 </div>
                 <div class="footer-nav">
                     <h4>Navigation</h4>
@@ -306,11 +306,12 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 Constanze Hevelke Coaching. Alle Rechte vorbehalten.</p>
+                <p id="footer-copyright">&copy; 2026 Constanze Hevelke Coaching. Alle Rechte vorbehalten.</p>
             </div>
         </div>
     </footer>
 
     <script src="js/main.js"></script>
+    <script src="js/content-loader.js"></script>
 </body>
 </html>

@@ -1,0 +1,133 @@
+{
+  "meta": {
+    "siteTitle": "Constanze Hevelke | Coaching",
+    "metaDescription": "Constanze Hevelke Coaching - Business-Coaching für Unternehmer:innen. Branding, Prozesse und kreative Entwicklung für dein Business."
+  },
+  "brand": {
+    "name": "Constanze Hevelke Coaching"
+  },
+  "hero": {
+    "subtitle": "Individuell. Kreativ. Anders.",
+    "title": "Dein Business",
+    "titleEm": "umdenken",
+    "text": "Klarheit, kreative Freiheit und Selbstbestimmung für Dich und Dein Business",
+    "button1Label": "Kostenloses Erstgespräch",
+    "button1Url": "#kontakt",
+    "button2Label": "Mehr erfahren",
+    "button2Url": "#about"
+  },
+  "about": {
+    "photo": "images/20260306_103911.jpg",
+    "photoAlt": "Constanze Hevelke - Business Coach",
+    "lead": "Du bist hier genau richtig, wenn du als Unternehmer:in Veränderungen in deinem Business anstoßen, Neues implementieren oder frischen Wind in dein Unternehmen bringen möchtest.",
+    "paragraphs": [
+      "Ob Branding, Positionierung oder Prozesse — ich unterstütze dich dabei, dein Business klar aufzustellen und kreative Lösungen zu finden, die wirklich zu dir passen. Gemeinsam schauen wir, wo du stehst, was dich bremst und wie du den nächsten Schritt gehst.",
+      "Mein Ansatz ist praxisnah und individuell. Kein Schema F, sondern Coaching, das sich an dein Business und deine Persönlichkeit anpasst. Ich bringe Energie, Ideen und Struktur mit — den Rest machen wir zusammen."
+    ]
+  },
+  "angebote": {
+    "title": "Das kann ich dir anbieten",
+    "subtitle": "Jeder Mensch ist einzigartig — deshalb biete ich individuell abgestimmte Coaching-Pakete an.",
+    "packages": [
+      {
+        "name": "Emergency Care Package",
+        "featured": false,
+        "badge": "",
+        "icon": "clock",
+        "description": "Schnelle, intensive Unterstützung wenn es brennt — alle Energie und Aufmerksamkeit auf dein Business.",
+        "features": [
+          "4 Termine in 2 Wochen",
+          "4 Stunden nur für dich und deine Fragen",
+          "Alle Energie und Aufmerksamkeit auf dein Business"
+        ],
+        "price": "600 €",
+        "ctaLabel": "Erstgespräch vereinbaren",
+        "ctaUrl": "#kontakt"
+      },
+      {
+        "name": "Business Care Package",
+        "featured": true,
+        "badge": "Empfohlen",
+        "icon": "check",
+        "description": "Begleitung über mehrere Monate — Zeit, neue Dinge auszuprobieren und gemeinsam zu testen.",
+        "features": [
+          "4 Termine in 4 Monaten",
+          "Freie Terminwahl mit min. 2 Wochen Abstand",
+          "4 Stunden nur für dich und dein Business",
+          "Zeit, neue Dinge auszuprobieren und gemeinsam zu testen"
+        ],
+        "price": "400 €",
+        "ctaLabel": "Erstgespräch vereinbaren",
+        "ctaUrl": "#kontakt"
+      },
+      {
+        "name": "Creative Care Package",
+        "featured": false,
+        "badge": "",
+        "icon": "star",
+        "description": "Intensive kreative Begleitung — für dich und deine kreative Entfaltung im Business.",
+        "features": [
+          "6 Termine in 4 Monaten",
+          "2 kurzfristige Termine und 4 weitere mit min. 2 Wochen Abstand",
+          "6 Stunden nur für dich und deine kreative Entfaltung",
+          "Zeit, neue Dinge auszuprobieren und gemeinsam zu testen"
+        ],
+        "price": "600 €",
+        "ctaLabel": "Erstgespräch vereinbaren",
+        "ctaUrl": "#kontakt"
+      }
+    ]
+  },
+  "methoden": {
+    "title": "Methoden & Philosophie",
+    "lead": "Mein Coaching ist praxisnah und direkt umsetzbar. Ich arbeite mit dir an den drei Säulen, die dein Business wirklich voranbringen.",
+    "photo": "images/methoden-kreativ.jpg",
+    "photoAlt": "Notizbuch und Stift — kreative Planung",
+    "items": [
+      {
+        "number": "01",
+        "title": "Branding & Positionierung",
+        "description": "Was sind deine Werte? Wer braucht, was du anbieten kannst? Wie verbildlichst du, wofür du stehst? Gemeinsam entwickeln wir deine klare Botschaft."
+      },
+      {
+        "number": "02",
+        "title": "Prozesse & Struktur",
+        "description": "Was tun, wenn dein Unternehmen nicht wächst, weil deine Systeme nicht mithalten können? Wir schaffen effiziente Abläufe für dein wachsendes Business."
+      },
+      {
+        "number": "03",
+        "title": "Kreative Entwicklung",
+        "description": "Neue Ideen ausprobieren, Dinge testen und gemeinsam herausfinden, was für dein Business funktioniert — mit Kreativität und Mut zu Neuem."
+      }
+    ]
+  },
+  "quote": {
+    "text": "Die größte Entdeckung meiner Generation ist, dass ein Mensch sein Leben ändern kann, indem er seine Einstellung ändert.",
+    "author": "– William James"
+  },
+  "instagram": {
+    "subtitle": "Impulse, Gedanken und Einblicke in meine Arbeit",
+    "profileUrl": "https://www.instagram.com/constanze.hevelke_coaching/",
+    "handle": "@constanze.hevelke_coaching",
+    "posts": [
+      { "image": "images/Post 1.png", "url": "https://www.instagram.com/p/DQQ_L69iEA-/?img_index=1" },
+      { "image": "images/Post 2.png", "url": "https://www.instagram.com/p/DUx7QIOCCf_/?img_index=1" },
+      { "image": "images/Post 3.png", "url": "https://www.instagram.com/p/DSFGMbqiOaI/?img_index=1" },
+      { "image": "images/Post 4.png", "url": "https://www.instagram.com/p/DWTlBGuiOhK/?img_index=1" },
+      { "image": "images/Post 5.png", "url": "https://www.instagram.com/p/DWgZToaiEns/?img_index=1" },
+      { "image": "images/Post 6.png", "url": "https://www.instagram.com/p/DWZH9eRiGHu/?img_index=1" }
+    ]
+  },
+  "contact": {
+    "title": "Lass uns sprechen",
+    "text": "Du möchtest mehr über mein Coaching erfahren oder ein unverbindliches Erstgespräch vereinbaren? Ich freue mich auf deine Nachricht!",
+    "email": "kontakt@constanze-hevelke.de",
+    "phone": "+49 (0) 155 62374107",
+    "location": "Neumarkt i.d.Opf.",
+    "instagramUrl": "https://www.instagram.com/constanze.hevelke_coaching/"
+  },
+  "footer": {
+    "description": "Business-Coaching für Unternehmer:innen — Branding, Prozesse und kreative Entwicklung.",
+    "copyright": "© 2026 Constanze Hevelke Coaching. Alle Rechte vorbehalten."
+  }
+}

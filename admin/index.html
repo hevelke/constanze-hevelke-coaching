@@ -1,13 +1,776 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="de">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="noindex" />
-  <title>Content Manager | Constanze Hevelke Coaching</title>
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin | Constanze Hevelke Coaching</title>
+  <script src="config.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #eef3f0; color: #2C3E33; min-height: 100vh; font-size: 14px; }
+
+    :root {
+      --p:       #709680;
+      --p-dark:  #567A66;
+      --p-light: #e8f0eb;
+      --surface: #ffffff;
+      --border:  #C8DDD0;
+      --text:    #2C3E33;
+      --muted:   #7A9A84;
+      --danger:  #c0392b;
+      --success: #1e8a4a;
+    }
+
+    /* ── Login ───────────────────────────────────────────────── */
+    #login { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 1rem; }
+    .login-box { background: var(--surface); border-radius: 14px; padding: 2.5rem 2rem; width: 100%; max-width: 400px; box-shadow: 0 6px 32px rgba(40,60,45,0.13); }
+    .login-brand { font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); margin-bottom: .75rem; }
+    .login-box h1 { font-size: 1.4rem; font-weight: 700; margin-bottom: .5rem; color: var(--p-dark); }
+    .login-mode-badge { display: inline-block; font-size: 11px; padding: .2rem .5rem; border-radius: 4px; margin-bottom: 1.5rem; font-weight: 600; }
+    .login-mode-badge.local { background: #d4edda; color: var(--success); }
+    .login-mode-badge.github { background: #dde4f0; color: #2f3d6e; }
+    .login-box .field { margin-bottom: 1rem; }
+    .login-box .field label { display: block; font-size: 12px; font-weight: 600; margin-bottom: .3rem; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+    .login-box input[type="password"],
+    .login-box input[type="text"] { width: 100%; padding: .6rem .8rem; border: 1.5px solid var(--border); border-radius: 7px; font-size: .9rem; outline: none; font-family: monospace; transition: border-color .2s; }
+    .login-box input:focus { border-color: var(--p); box-shadow: 0 0 0 3px rgba(112,150,128,.15); }
+    .login-submit { margin-top: .5rem; width: 100%; padding: .7rem; background: var(--p); color: #fff; border: none; border-radius: 7px; font-size: .9rem; font-weight: 700; cursor: pointer; transition: background .2s; }
+    .login-submit:hover { background: var(--p-dark); }
+    .login-error { margin-top: .75rem; color: var(--danger); font-size: .8rem; text-align: center; line-height: 1.5; }
+    .login-hint { margin-top: 1.25rem; font-size: .78rem; color: var(--muted); line-height: 1.6; background: var(--p-light); padding: .75rem; border-radius: 7px; }
+    .login-hint a { color: var(--p-dark); }
+    .login-hint strong { color: var(--text); }
+
+    /* ── App shell ───────────────────────────────────────────── */
+    #app { display: none; flex-direction: column; min-height: 100vh; }
+    #app.visible { display: flex; }
+
+    .app-header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 1.5rem; height: 52px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 200; flex-shrink: 0; }
+    .app-header-left { display: flex; align-items: center; gap: .75rem; }
+    .app-mode { font-size: 11px; padding: .15rem .45rem; border-radius: 4px; font-weight: 600; }
+    .app-mode.local { background: #d4edda; color: var(--success); }
+    .app-mode.github { background: #dde4f0; color: #2f3d6e; }
+    .app-header-title { font-size: .95rem; font-weight: 700; color: var(--p-dark); }
+    .header-right { display: flex; align-items: center; gap: .625rem; }
+    #saveStatus { font-size: .8rem; padding: .25rem .6rem; border-radius: 5px; }
+    #saveStatus.ok { background: #d4edda; color: var(--success); }
+    #saveStatus.err { background: #fde8e8; color: var(--danger); }
+    .btn-save { background: var(--p); color: #fff; border: none; padding: .45rem 1.1rem; border-radius: 7px; font-size: .85rem; font-weight: 700; cursor: pointer; transition: background .2s; }
+    .btn-save:hover { background: var(--p-dark); }
+    .btn-save:disabled { opacity: .55; cursor: default; }
+    .btn-logout { background: none; border: 1.5px solid var(--border); color: var(--muted); padding: .4rem .8rem; border-radius: 7px; font-size: .8rem; cursor: pointer; transition: all .2s; }
+    .btn-logout:hover { border-color: var(--text); color: var(--text); }
+
+    .tab-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 1.5rem; display: flex; overflow-x: auto; scrollbar-width: none; flex-shrink: 0; }
+    .tab-bar::-webkit-scrollbar { display: none; }
+    .tab-btn { background: none; border: none; border-bottom: 3px solid transparent; padding: .75rem .9rem; font-size: .8rem; font-weight: 600; color: var(--muted); cursor: pointer; white-space: nowrap; transition: color .15s; }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active { color: var(--p-dark); border-bottom-color: var(--p); }
+
+    .tab-content { flex: 1; padding: 2rem 1.5rem 4rem; max-width: 800px; width: 100%; margin: 0 auto; }
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    .card { background: var(--surface); border-radius: 10px; padding: 1.5rem; margin-bottom: 1.25rem; border: 1px solid var(--border); }
+    .card-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 1.1rem; padding-bottom: .6rem; border-bottom: 1px solid var(--border); }
+
+    .sub-card { border: 1.5px solid var(--border); border-radius: 8px; padding: 1.1rem 1.1rem .8rem; margin-bottom: .875rem; }
+    .sub-card:last-child { margin-bottom: 0; }
+    .sub-card-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--p-dark); margin-bottom: .875rem; }
+
+    .field { margin-bottom: .875rem; }
+    .field:last-child { margin-bottom: 0; }
+    .field > label { display: block; font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: .3rem; }
+    .field > label .hint { font-weight: 400; color: var(--muted); }
+    input[type="text"], input[type="url"], input[type="email"], input[type="tel"], select, textarea {
+      width: 100%; padding: .5rem .7rem; border: 1.5px solid var(--border); border-radius: 6px; font-size: .85rem; color: var(--text); background: #fff; font-family: inherit; transition: border-color .2s;
+    }
+    input:focus, textarea:focus, select:focus { outline: none; border-color: var(--p); box-shadow: 0 0 0 3px rgba(112,150,128,.13); }
+    textarea { resize: vertical; min-height: 72px; line-height: 1.55; }
+    .textarea-lg { min-height: 108px; }
+
+    .field-checkbox { display: flex; align-items: center; gap: .5rem; }
+    .field-checkbox input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--p); flex-shrink: 0; }
+    .field-checkbox label { margin-bottom: 0; font-size: .85rem; }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: .875rem; }
+    @media (max-width: 560px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    .image-row { display: flex; gap: 1rem; align-items: flex-start; }
+    .img-thumb { width: 72px; height: 72px; object-fit: cover; border-radius: 7px; border: 1.5px solid var(--border); flex-shrink: 0; background: var(--p-light); }
+    .img-meta { flex: 1; min-width: 0; }
+    .img-path { font-size: 11px; color: var(--muted); margin-bottom: .5rem; word-break: break-all; font-family: monospace; }
+    .btn-upload { display: inline-block; padding: .35rem .7rem; background: none; border: 1.5px solid var(--border); border-radius: 6px; font-size: .78rem; font-weight: 600; color: var(--text); cursor: pointer; transition: all .2s; }
+    .btn-upload:hover { border-color: var(--p); color: var(--p); }
+    .uploading-label { opacity: .55; pointer-events: none; }
+
+    .ig-posts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .875rem; }
+    @media (max-width: 560px) { .ig-posts-grid { grid-template-columns: repeat(2, 1fr); } }
+    .ig-post-item { border: 1.5px solid var(--border); border-radius: 8px; padding: .875rem; }
+    .ig-post-num { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; margin-bottom: .6rem; }
+    .ig-thumb { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 6px; border: 1px solid var(--border); margin-bottom: .5rem; background: var(--p-light); }
+    .ig-upload-btn { display: block; text-align: center; padding: .3rem; background: none; border: 1.5px dashed var(--border); border-radius: 6px; font-size: .75rem; color: var(--muted); cursor: pointer; margin-bottom: .5rem; transition: all .2s; }
+    .ig-upload-btn:hover { border-color: var(--p); color: var(--p); }
+
+    .section-hint { font-size: .78rem; color: var(--muted); margin-bottom: 1rem; line-height: 1.5; background: var(--p-light); padding: .6rem .875rem; border-radius: 6px; border-left: 3px solid var(--p); }
+  </style>
 </head>
 <body>
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+
+<!-- ── Login ────────────────────────────────────────────────── -->
+<div id="login">
+  <div class="login-box">
+    <div class="login-brand">Constanze Hevelke Coaching</div>
+    <h1>Admin-Bereich</h1>
+    <div id="loginModeBadge" class="login-mode-badge"></div>
+    <form id="loginForm">
+      <div class="field" id="loginTokenField">
+        <label id="loginLabel">Token</label>
+        <input type="password" id="pwInput" autocomplete="current-password" autofocus>
+      </div>
+      <button type="submit" class="login-submit">Anmelden</button>
+      <p id="loginError" class="login-error" hidden></p>
+    </form>
+    <div id="loginHint" class="login-hint" hidden></div>
+  </div>
+</div>
+
+<!-- ── App ──────────────────────────────────────────────────── -->
+<div id="app">
+  <header class="app-header">
+    <div class="app-header-left">
+      <span id="appModeBadge" class="app-mode"></span>
+      <span class="app-header-title">Inhalte bearbeiten</span>
+    </div>
+    <div class="header-right">
+      <span id="saveStatus"></span>
+      <button class="btn-save" id="saveBtn">Speichern</button>
+      <button class="btn-logout" id="logoutBtn">Abmelden</button>
+    </div>
+  </header>
+
+  <nav class="tab-bar" id="tabBar">
+    <button class="tab-btn active" data-tab="allgemein">Allgemein</button>
+    <button class="tab-btn" data-tab="hero">Hero</button>
+    <button class="tab-btn" data-tab="about">Über mich</button>
+    <button class="tab-btn" data-tab="angebote">Angebote</button>
+    <button class="tab-btn" data-tab="methoden">Methoden</button>
+    <button class="tab-btn" data-tab="quote">Zitat</button>
+    <button class="tab-btn" data-tab="instagram">Instagram</button>
+    <button class="tab-btn" data-tab="contact">Kontakt</button>
+    <button class="tab-btn" data-tab="footer">Footer</button>
+  </nav>
+
+  <main class="tab-content">
+
+    <!-- Allgemein -->
+    <div class="panel active" id="panel-allgemein">
+      <div class="card">
+        <div class="card-title">SEO &amp; Allgemeine Einstellungen</div>
+        <div class="field"><label>Markenname <span class="hint">(Navigation &amp; Footer)</span></label><input type="text" id="brand-name"></div>
+        <div class="field"><label>Seitentitel <span class="hint">(Browser-Tab)</span></label><input type="text" id="meta-siteTitle"></div>
+        <div class="field"><label>Meta-Beschreibung <span class="hint">(Suchmaschinen-Snippet)</span></label><textarea id="meta-metaDescription"></textarea></div>
+      </div>
+    </div>
+
+    <!-- Hero -->
+    <div class="panel" id="panel-hero">
+      <div class="card">
+        <div class="card-title">Hero-Bereich</div>
+        <div class="field"><label>Untertitel</label><input type="text" id="hero-subtitle"></div>
+        <div class="grid-2">
+          <div class="field"><label>Haupttitel</label><input type="text" id="hero-title"></div>
+          <div class="field"><label>Hervorgehobenes Wort <span class="hint">(kursiv)</span></label><input type="text" id="hero-titleEm"></div>
+        </div>
+        <div class="field"><label>Beschreibungstext</label><textarea id="hero-text"></textarea></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Buttons</div>
+        <div class="sub-card">
+          <div class="sub-card-title">Button 1 — Primär</div>
+          <div class="grid-2">
+            <div class="field"><label>Beschriftung</label><input type="text" id="hero-button1Label"></div>
+            <div class="field"><label>Link</label><input type="text" id="hero-button1Url"></div>
+          </div>
+        </div>
+        <div class="sub-card">
+          <div class="sub-card-title">Button 2 — Sekundär</div>
+          <div class="grid-2">
+            <div class="field"><label>Beschriftung</label><input type="text" id="hero-button2Label"></div>
+            <div class="field"><label>Link</label><input type="text" id="hero-button2Url"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Über mich -->
+    <div class="panel" id="panel-about">
+      <div class="card">
+        <div class="card-title">Profilfoto</div>
+        <div class="image-row">
+          <img class="img-thumb" id="about-photo-preview" src="" alt="" onerror="this.style.display='none'">
+          <div class="img-meta">
+            <div class="img-path" id="about-photo-path">—</div>
+            <label class="btn-upload" id="about-upload-label">Bild hochladen<input type="file" id="about-photo-upload" accept="image/*" style="display:none"></label>
+            <div class="field" style="margin-top:.625rem"><label>Alt-Text</label><input type="text" id="about-photoAlt"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Texte</div>
+        <div class="field"><label>Lead-Text <span class="hint">(hervorgehobener Einstiegssatz)</span></label><textarea id="about-lead" class="textarea-lg"></textarea></div>
+        <div class="field"><label>Weitere Absätze <span class="hint">(Leerzeile = neuer Absatz)</span></label><textarea id="about-paragraphs" class="textarea-lg" rows="7"></textarea></div>
+      </div>
+    </div>
+
+    <!-- Angebote -->
+    <div class="panel" id="panel-angebote">
+      <div class="card">
+        <div class="card-title">Abschnitts-Überschrift</div>
+        <div class="field"><label>Titel</label><input type="text" id="angebote-title"></div>
+        <div class="field"><label>Untertitel</label><textarea id="angebote-subtitle"></textarea></div>
+      </div>
+      <div class="card"><div class="card-title">Paket 1</div><div id="pkg-0-block"></div></div>
+      <div class="card"><div class="card-title">Paket 2</div><div id="pkg-1-block"></div></div>
+      <div class="card"><div class="card-title">Paket 3</div><div id="pkg-2-block"></div></div>
+    </div>
+
+    <!-- Methoden -->
+    <div class="panel" id="panel-methoden">
+      <div class="card">
+        <div class="card-title">Abschnitts-Überschrift</div>
+        <div class="field"><label>Titel</label><input type="text" id="methoden-title"></div>
+        <div class="field"><label>Lead-Text</label><textarea id="methoden-lead"></textarea></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Abschnittsfoto</div>
+        <div class="image-row">
+          <img class="img-thumb" id="methoden-photo-preview" src="" alt="" onerror="this.style.display='none'">
+          <div class="img-meta">
+            <div class="img-path" id="methoden-photo-path">—</div>
+            <label class="btn-upload" id="methoden-upload-label">Bild hochladen<input type="file" id="methoden-photo-upload" accept="image/*" style="display:none"></label>
+            <div class="field" style="margin-top:.625rem"><label>Alt-Text</label><input type="text" id="methoden-photoAlt"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card"><div class="card-title">Methoden-Punkte</div><div id="methoden-items-block"></div></div>
+    </div>
+
+    <!-- Zitat -->
+    <div class="panel" id="panel-quote">
+      <div class="card">
+        <div class="card-title">Zitat-Banner</div>
+        <div class="field"><label>Zitat-Text <span class="hint">(Anführungszeichen werden automatisch ergänzt)</span></label><textarea id="quote-text" class="textarea-lg"></textarea></div>
+        <div class="field"><label>Autor/in <span class="hint">(z.B. "– William James")</span></label><input type="text" id="quote-author"></div>
+      </div>
+    </div>
+
+    <!-- Instagram -->
+    <div class="panel" id="panel-instagram">
+      <div class="card">
+        <div class="card-title">Abschnitts-Texte</div>
+        <div class="field"><label>Untertitel</label><input type="text" id="instagram-subtitle"></div>
+        <div class="grid-2">
+          <div class="field"><label>Profil-URL</label><input type="text" id="instagram-profileUrl"></div>
+          <div class="field"><label>Handle <span class="hint">(@name)</span></label><input type="text" id="instagram-handle"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Posts</div>
+        <div class="section-hint">Bild hochladen und Instagram-Link eintragen. Änderungen werden nach dem Speichern live.</div>
+        <div class="ig-posts-grid" id="ig-posts-grid"></div>
+      </div>
+    </div>
+
+    <!-- Kontakt -->
+    <div class="panel" id="panel-contact">
+      <div class="card">
+        <div class="card-title">Texte</div>
+        <div class="field"><label>Überschrift</label><input type="text" id="contact-title"></div>
+        <div class="field"><label>Beschreibungstext</label><textarea id="contact-text"></textarea></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Kontaktdaten</div>
+        <div class="grid-2">
+          <div class="field"><label>E-Mail</label><input type="email" id="contact-email"></div>
+          <div class="field"><label>Telefon</label><input type="tel" id="contact-phone"></div>
+        </div>
+        <div class="grid-2">
+          <div class="field"><label>Standort</label><input type="text" id="contact-location"></div>
+          <div class="field"><label>Instagram-URL</label><input type="text" id="contact-instagramUrl"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="panel" id="panel-footer">
+      <div class="card">
+        <div class="card-title">Footer-Texte</div>
+        <div class="field"><label>Kurztext <span class="hint">(unter dem Logo)</span></label><textarea id="footer-description"></textarea></div>
+        <div class="field"><label>Copyright-Zeile</label><input type="text" id="footer-copyright"></div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+'use strict';
+
+// ── Modus erkennen ─────────────────────────────────────────────
+const IS_LOCAL = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+const GH = {
+  owner:  window.GITHUB_OWNER  || '',
+  repo:   window.GITHUB_REPO   || '',
+  branch: window.GITHUB_BRANCH || 'main',
+};
+const CONTENT_PATH = 'content/data.json';
+
+let password = '';
+let data = {};
+let contentSha = null; // SHA für GitHub API (PUT benötigt aktuelles SHA)
+
+// ── Login UI vorbereiten ───────────────────────────────────────
+(function initLoginUI() {
+  const badge = document.getElementById('loginModeBadge');
+  const label = document.getElementById('loginLabel');
+  const hint  = document.getElementById('loginHint');
+
+  if (IS_LOCAL) {
+    badge.textContent = 'Lokaler Server';
+    badge.className = 'login-mode-badge local';
+    label.textContent = 'Passwort';
+  } else {
+    badge.textContent = 'Online via GitHub';
+    badge.className = 'login-mode-badge github';
+    label.textContent = 'GitHub Personal Access Token';
+    hint.hidden = false;
+    hint.innerHTML =
+      '<strong>So bekommst du einen Token:</strong><br>' +
+      '1. <a href="https://github.com/settings/tokens?type=beta" target="_blank" rel="noopener">github.com → Settings → Developer settings</a><br>' +
+      '2. Personal access tokens → Fine-grained tokens → New token<br>' +
+      '3. Repository access: <strong>' + (GH.owner || 'dein-username') + '/' + GH.repo + '</strong><br>' +
+      '4. Permissions: <strong>Contents = Read and write</strong><br>' +
+      '<br>Das Token wird nur für diese Browser-Sitzung gespeichert.';
+  }
+})();
+
+// ── Login ──────────────────────────────────────────────────────
+document.getElementById('loginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const pw = document.getElementById('pwInput').value.trim();
+  const errEl = document.getElementById('loginError');
+  errEl.hidden = true;
+
+  try {
+    password = pw;
+    await loadContent();
+    document.getElementById('login').style.display = 'none';
+    const app = document.getElementById('app');
+    app.style.display = 'flex';
+    app.style.flexDirection = 'column';
+    const appBadge = document.getElementById('appModeBadge');
+    if (IS_LOCAL) {
+      appBadge.textContent = 'Lokal';
+      appBadge.className = 'app-mode local';
+    } else {
+      appBadge.textContent = 'GitHub';
+      appBadge.className = 'app-mode github';
+    }
+  } catch (err) {
+    password = '';
+    errEl.textContent = err.message || 'Anmeldung fehlgeschlagen.';
+    errEl.hidden = false;
+  }
+});
+
+// ── Logout ─────────────────────────────────────────────────────
+document.getElementById('logoutBtn').addEventListener('click', () => {
+  password = ''; data = {}; contentSha = null;
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login').style.display = '';
+  document.getElementById('pwInput').value = '';
+  document.getElementById('loginError').hidden = true;
+});
+
+// ── Tabs ───────────────────────────────────────────────────────
+document.getElementById('tabBar').addEventListener('click', e => {
+  const btn = e.target.closest('.tab-btn');
+  if (!btn) return;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('panel-' + btn.dataset.tab)?.classList.add('active');
+});
+
+// ══════════════════════════════════════════════════════════════
+//  API — Lokal (serve.py)
+// ══════════════════════════════════════════════════════════════
+async function localLoad() {
+  const res = await fetch('/api/auth', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password })
+  });
+  if (!res.ok) throw new Error('Falsches Passwort.');
+  const r2 = await fetch('/api/content');
+  if (!r2.ok) throw new Error('Inhalt konnte nicht geladen werden.');
+  return r2.json();
+}
+
+async function localSave(payload) {
+  const res = await fetch('/api/content', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Admin-Password': password },
+    body: JSON.stringify(payload)
+  });
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.error || 'Speicherfehler');
+}
+
+async function localUpload(filename, base64Data) {
+  const bytes = atob(base64Data);
+  const ab = new Uint8Array(bytes.length);
+  for (let i = 0; i < bytes.length; i++) ab[i] = bytes.charCodeAt(i);
+  const fd = new FormData();
+  fd.append('file', new Blob([ab]), filename);
+  const res = await fetch('/api/upload', {
+    method: 'POST',
+    headers: { 'X-Admin-Password': password },
+    body: fd
+  });
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.error || 'Upload fehlgeschlagen');
+  return result.path;
+}
+
+// ══════════════════════════════════════════════════════════════
+//  API — GitHub
+// ══════════════════════════════════════════════════════════════
+function ghHeaders() {
+  return {
+    'Authorization': 'Bearer ' + password,
+    'Content-Type': 'application/json',
+    'X-GitHub-Api-Version': '2022-11-28'
+  };
+}
+function ghBase() {
+  return `https://api.github.com/repos/${GH.owner}/${GH.repo}/contents`;
+}
+
+async function githubLoad() {
+  if (!GH.owner || GH.owner === 'DEIN-GITHUB-USERNAME') {
+    throw new Error('Bitte zuerst admin/config.js anpassen (GITHUB_OWNER setzen).');
+  }
+  const res = await fetch(`${ghBase()}/${CONTENT_PATH}?ref=${GH.branch}`, { headers: ghHeaders() });
+  if (res.status === 401) throw new Error('Ungültiger Token oder keine Berechtigung.');
+  if (res.status === 404) throw new Error(`Datei "${CONTENT_PATH}" nicht im Repository gefunden.`);
+  if (!res.ok) throw new Error(`GitHub API Fehler: ${res.status}`);
+  const file = await res.json();
+  contentSha = file.sha;
+  const text = decodeURIComponent(escape(atob(file.content.replace(/\n/g, ''))));
+  return JSON.parse(text);
+}
+
+async function githubSave(payload) {
+  const text = JSON.stringify(payload, null, 2);
+  const b64 = btoa(unescape(encodeURIComponent(text)));
+  const body = {
+    message: 'Admin: Inhalte aktualisiert',
+    content: b64,
+    branch: GH.branch,
+    sha: contentSha
+  };
+  const res = await fetch(`${ghBase()}/${CONTENT_PATH}`, {
+    method: 'PUT',
+    headers: ghHeaders(),
+    body: JSON.stringify(body)
+  });
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message || `GitHub API Fehler: ${res.status}`);
+  contentSha = result.content?.sha ?? contentSha;
+}
+
+async function githubUpload(filename, base64Data) {
+  const path = `images/${filename}`;
+  // SHA abrufen falls Datei schon existiert
+  let sha;
+  try {
+    const check = await fetch(`${ghBase()}/${path}?ref=${GH.branch}`, { headers: ghHeaders() });
+    if (check.ok) sha = (await check.json()).sha;
+  } catch {}
+  const body = { message: `Admin: Bild hochgeladen (${filename})`, content: base64Data, branch: GH.branch };
+  if (sha) body.sha = sha;
+  const res = await fetch(`${ghBase()}/${path}`, {
+    method: 'PUT',
+    headers: ghHeaders(),
+    body: JSON.stringify(body)
+  });
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message || 'Upload fehlgeschlagen');
+  return path;
+}
+
+// ── Abstraktion ────────────────────────────────────────────────
+async function loadContent() {
+  data = IS_LOCAL ? await localLoad() : await githubLoad();
+  populateForms(data);
+}
+
+async function saveContent(payload) {
+  if (IS_LOCAL) await localSave(payload);
+  else await githubSave(payload);
+}
+
+async function uploadImage(filename, base64Data) {
+  return IS_LOCAL ? await localUpload(filename, base64Data) : await githubUpload(filename, base64Data);
+}
+
+// ── Speichern ──────────────────────────────────────────────────
+document.getElementById('saveBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('saveBtn');
+  const statusEl = document.getElementById('saveStatus');
+  btn.disabled = true;
+  btn.textContent = 'Speichert…';
+  statusEl.className = '';
+  statusEl.textContent = '';
+  try {
+    const payload = collectData();
+    await saveContent(payload);
+    data = payload;
+    statusEl.textContent = IS_LOCAL ? 'Gespeichert ✓' : 'Gespeichert ✓ (Commit erstellt)';
+    statusEl.className = 'ok';
+    setTimeout(() => { statusEl.textContent = ''; statusEl.className = ''; }, 4000);
+  } catch (e) {
+    statusEl.textContent = e.message || 'Fehler';
+    statusEl.className = 'err';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Speichern';
+  }
+});
+
+// ── Bild-Upload ────────────────────────────────────────────────
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+function setupUpload(inputId, onSuccess) {
+  const input = document.getElementById(inputId);
+  if (!input) return;
+  input.addEventListener('change', async () => {
+    const file = input.files[0];
+    if (!file) return;
+    const label = input.closest('label');
+    if (label) label.classList.add('uploading-label');
+    try {
+      const b64 = await fileToBase64(file);
+      const path = await uploadImage(file.name, b64);
+      onSuccess(path);
+    } catch (e) {
+      alert('Upload fehlgeschlagen: ' + e.message);
+    } finally {
+      if (label) label.classList.remove('uploading-label');
+      input.value = '';
+    }
+  });
+}
+
+function setImgPreview(id, path) {
+  const img = document.getElementById(id);
+  if (!img || !path) return;
+  img.style.display = '';
+  // Lokal: relativer Pfad. GitHub: raw URL
+  if (IS_LOCAL) {
+    img.src = '/' + path;
+  } else {
+    img.src = `https://raw.githubusercontent.com/${GH.owner}/${GH.repo}/${GH.branch}/${path}`;
+  }
+}
+
+setupUpload('about-photo-upload', path => {
+  data.about = data.about || {};
+  data.about.photo = path;
+  document.getElementById('about-photo-path').textContent = path;
+  setImgPreview('about-photo-preview', path);
+});
+setupUpload('methoden-photo-upload', path => {
+  data.methoden = data.methoden || {};
+  data.methoden.photo = path;
+  document.getElementById('methoden-photo-path').textContent = path;
+  setImgPreview('methoden-photo-preview', path);
+});
+[0,1,2,3,4,5].forEach(i => {
+  setupUpload(`ig-${i}-upload`, path => {
+    data.instagram = data.instagram || {};
+    data.instagram.posts = data.instagram.posts || [];
+    data.instagram.posts[i] = data.instagram.posts[i] || {};
+    data.instagram.posts[i].image = path;
+    setImgPreview(`ig-${i}-thumb`, path);
+  });
+});
+
+// ── Dynamische HTML-Blöcke ─────────────────────────────────────
+function renderPkgBlock(i) {
+  return `
+    <div class="field-checkbox" style="margin-bottom:.875rem">
+      <input type="checkbox" id="pkg-${i}-featured">
+      <label for="pkg-${i}-featured">Als empfohlenes Paket hervorheben</label>
+    </div>
+    <div class="grid-2">
+      <div class="field"><label>Name</label><input type="text" id="pkg-${i}-name"></div>
+      <div class="field"><label>Badge <span class="hint">(leer = kein Badge)</span></label><input type="text" id="pkg-${i}-badge"></div>
+    </div>
+    <div class="grid-2">
+      <div class="field"><label>Icon</label>
+        <select id="pkg-${i}-icon">
+          <option value="clock">Uhr</option>
+          <option value="check">Häkchen</option>
+          <option value="star">Stern</option>
+        </select>
+      </div>
+      <div class="field"><label>Preis</label><input type="text" id="pkg-${i}-price"></div>
+    </div>
+    <div class="field"><label>Kurzbeschreibung</label><textarea id="pkg-${i}-description"></textarea></div>
+    <div class="field"><label>Leistungen <span class="hint">(eine Zeile = ein Punkt)</span></label><textarea id="pkg-${i}-features" class="textarea-lg" rows="5"></textarea></div>
+    <div class="grid-2">
+      <div class="field"><label>CTA-Beschriftung</label><input type="text" id="pkg-${i}-ctaLabel"></div>
+      <div class="field"><label>CTA-Link</label><input type="text" id="pkg-${i}-ctaUrl"></div>
+    </div>`;
+}
+
+document.getElementById('pkg-0-block').innerHTML = renderPkgBlock(0);
+document.getElementById('pkg-1-block').innerHTML = renderPkgBlock(1);
+document.getElementById('pkg-2-block').innerHTML = renderPkgBlock(2);
+
+document.getElementById('methoden-items-block').innerHTML = [0,1,2].map(i => `
+  <div class="sub-card">
+    <div class="sub-card-title">Methode ${i+1}</div>
+    <div class="grid-2">
+      <div class="field"><label>Nummer</label><input type="text" id="m-${i}-number"></div>
+      <div class="field"><label>Titel</label><input type="text" id="m-${i}-title"></div>
+    </div>
+    <div class="field"><label>Beschreibung</label><textarea id="m-${i}-description"></textarea></div>
+  </div>`).join('');
+
+document.getElementById('ig-posts-grid').innerHTML = [0,1,2,3,4,5].map(i => `
+  <div class="ig-post-item">
+    <div class="ig-post-num">Post ${i+1}</div>
+    <img class="ig-thumb" id="ig-${i}-thumb" src="" alt="" onerror="this.style.display='none'">
+    <label class="ig-upload-btn" id="ig-${i}-upload-label">Bild hochladen<input type="file" id="ig-${i}-upload" accept="image/*" style="display:none"></label>
+    <div class="field"><label>Instagram-Link</label><input type="text" id="ig-${i}-url" placeholder="https://instagram.com/p/..."></div>
+  </div>`).join('');
+
+// ── Formulare befüllen ─────────────────────────────────────────
+const $ = id => document.getElementById(id);
+const val = id => ($(`${id}`)?.value ?? '').trim();
+const setVal = (id, v) => { const el = $(id); if (el && v != null) el.value = v; };
+const setChecked = (id, v) => { const el = $(id); if (el) el.checked = !!v; };
+const checked = id => !!($(`${id}`)?.checked);
+
+function populateForms(d) {
+  setVal('brand-name', d.brand?.name);
+  setVal('meta-siteTitle', d.meta?.siteTitle);
+  setVal('meta-metaDescription', d.meta?.metaDescription);
+  setVal('hero-subtitle', d.hero?.subtitle);
+  setVal('hero-title', d.hero?.title);
+  setVal('hero-titleEm', d.hero?.titleEm);
+  setVal('hero-text', d.hero?.text);
+  setVal('hero-button1Label', d.hero?.button1Label);
+  setVal('hero-button1Url', d.hero?.button1Url);
+  setVal('hero-button2Label', d.hero?.button2Label);
+  setVal('hero-button2Url', d.hero?.button2Url);
+  setVal('about-photoAlt', d.about?.photoAlt);
+  setVal('about-lead', d.about?.lead);
+  setVal('about-paragraphs', (d.about?.paragraphs || []).join('\n\n'));
+  if (d.about?.photo) { $('about-photo-path').textContent = d.about.photo; setImgPreview('about-photo-preview', d.about.photo); }
+  setVal('angebote-title', d.angebote?.title);
+  setVal('angebote-subtitle', d.angebote?.subtitle);
+  (d.angebote?.packages || []).forEach((pkg, i) => {
+    setChecked(`pkg-${i}-featured`, pkg.featured);
+    setVal(`pkg-${i}-name`, pkg.name);
+    setVal(`pkg-${i}-badge`, pkg.badge);
+    setVal(`pkg-${i}-icon`, pkg.icon);
+    setVal(`pkg-${i}-description`, pkg.description);
+    setVal(`pkg-${i}-features`, (pkg.features || []).join('\n'));
+    setVal(`pkg-${i}-price`, pkg.price);
+    setVal(`pkg-${i}-ctaLabel`, pkg.ctaLabel);
+    setVal(`pkg-${i}-ctaUrl`, pkg.ctaUrl);
+  });
+  setVal('methoden-title', d.methoden?.title);
+  setVal('methoden-lead', d.methoden?.lead);
+  setVal('methoden-photoAlt', d.methoden?.photoAlt);
+  if (d.methoden?.photo) { $('methoden-photo-path').textContent = d.methoden.photo; setImgPreview('methoden-photo-preview', d.methoden.photo); }
+  (d.methoden?.items || []).forEach((item, i) => {
+    setVal(`m-${i}-number`, item.number);
+    setVal(`m-${i}-title`, item.title);
+    setVal(`m-${i}-description`, item.description);
+  });
+  setVal('quote-text', d.quote?.text);
+  setVal('quote-author', d.quote?.author);
+  setVal('instagram-subtitle', d.instagram?.subtitle);
+  setVal('instagram-profileUrl', d.instagram?.profileUrl);
+  setVal('instagram-handle', d.instagram?.handle);
+  (d.instagram?.posts || []).forEach((post, i) => {
+    setVal(`ig-${i}-url`, post.url);
+    if (post.image) setImgPreview(`ig-${i}-thumb`, post.image);
+  });
+  setVal('contact-title', d.contact?.title);
+  setVal('contact-text', d.contact?.text);
+  setVal('contact-email', d.contact?.email);
+  setVal('contact-phone', d.contact?.phone);
+  setVal('contact-location', d.contact?.location);
+  setVal('contact-instagramUrl', d.contact?.instagramUrl);
+  setVal('footer-description', d.footer?.description);
+  setVal('footer-copyright', d.footer?.copyright);
+}
+
+function collectData() {
+  return {
+    meta: { siteTitle: val('meta-siteTitle'), metaDescription: val('meta-metaDescription') },
+    brand: { name: val('brand-name') },
+    hero: {
+      subtitle: val('hero-subtitle'), title: val('hero-title'), titleEm: val('hero-titleEm'),
+      text: val('hero-text'), button1Label: val('hero-button1Label'), button1Url: val('hero-button1Url'),
+      button2Label: val('hero-button2Label'), button2Url: val('hero-button2Url')
+    },
+    about: {
+      photo: data.about?.photo || '', photoAlt: val('about-photoAlt'), lead: val('about-lead'),
+      paragraphs: val('about-paragraphs').split(/\n{2,}/).map(s => s.trim()).filter(Boolean)
+    },
+    angebote: {
+      title: val('angebote-title'), subtitle: val('angebote-subtitle'),
+      packages: [0,1,2].map(i => ({
+        name: val(`pkg-${i}-name`), featured: checked(`pkg-${i}-featured`),
+        badge: val(`pkg-${i}-badge`), icon: val(`pkg-${i}-icon`),
+        description: val(`pkg-${i}-description`),
+        features: val(`pkg-${i}-features`).split('\n').map(s => s.trim()).filter(Boolean),
+        price: val(`pkg-${i}-price`), ctaLabel: val(`pkg-${i}-ctaLabel`), ctaUrl: val(`pkg-${i}-ctaUrl`)
+      }))
+    },
+    methoden: {
+      title: val('methoden-title'), lead: val('methoden-lead'),
+      photo: data.methoden?.photo || '', photoAlt: val('methoden-photoAlt'),
+      items: [0,1,2].map(i => ({ number: val(`m-${i}-number`), title: val(`m-${i}-title`), description: val(`m-${i}-description`) }))
+    },
+    quote: { text: val('quote-text'), author: val('quote-author') },
+    instagram: {
+      subtitle: val('instagram-subtitle'), profileUrl: val('instagram-profileUrl'), handle: val('instagram-handle'),
+      posts: [0,1,2,3,4,5].map(i => ({ image: data.instagram?.posts?.[i]?.image || '', url: val(`ig-${i}-url`) }))
+    },
+    contact: {
+      title: val('contact-title'), text: val('contact-text'), email: val('contact-email'),
+      phone: val('contact-phone'), location: val('contact-location'), instagramUrl: val('contact-instagramUrl')
+    },
+    footer: { description: val('footer-description'), copyright: val('footer-copyright') }
+  };
+}
+</script>
 </body>
 </html>
