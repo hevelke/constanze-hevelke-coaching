@@ -58,28 +58,51 @@ document.addEventListener('DOMContentLoaded', () => {
 
     fadeElements.forEach(el => observer.observe(el));
 
-    // --- Contact form handling ---
+    // --- Contact form handling (via Formspree) ---
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
-        contactForm.addEventListener('submit', (e) => {
+        contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const formData = new FormData(contactForm);
-            const data = Object.fromEntries(formData);
-
-            // Show success message (replace with actual form submission later)
             const btn = contactForm.querySelector('button[type="submit"]');
             const originalText = btn.textContent;
-            btn.textContent = 'Nachricht gesendet!';
-            btn.style.background = '#6B8F71';
+            btn.textContent = 'Wird gesendet…';
             btn.disabled = true;
 
-            setTimeout(() => {
-                btn.textContent = originalText;
-                btn.style.background = '';
-                btn.disabled = false;
-                contactForm.reset();
-            }, 3000);
+            try {
+                const res = await fetch(contactForm.action, {
+                    method: 'POST',
+                    body: new FormData(contactForm),
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (res.ok) {
+                    btn.textContent = 'Nachricht gesendet!';
+                    btn.style.background = '#6B8F71';
+                    contactForm.reset();
+                    setTimeout(() => {
+                        btn.textContent = originalText;
+                        btn.style.background = '';
+                        btn.disabled = false;
+                    }, 3000);
+                } else {
+                    btn.textContent = 'Fehler — bitte erneut versuchen';
+                    btn.style.background = '#c0392b';
+                    setTimeout(() => {
+                        btn.textContent = originalText;
+                        btn.style.background = '';
+                        btn.disabled = false;
+                    }, 3000);
+                }
+            } catch {
+                btn.textContent = 'Verbindungsfehler';
+                btn.style.background = '#c0392b';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '';
+                    btn.disabled = false;
+                }, 3000);
+            }
         });
     }
 
