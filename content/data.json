@@ -110,17 +110,35 @@
     "profileUrl": "https://www.instagram.com/constanze.hevelke_coaching/",
     "handle": "@constanze.hevelke_coaching",
     "posts": [
-      { "image": "images/Post 1.png", "url": "https://www.instagram.com/p/DQQ_L69iEA-/?img_index=1" },
-      { "image": "images/Post 2.png", "url": "https://www.instagram.com/p/DUx7QIOCCf_/?img_index=1" },
-      { "image": "images/Post 3.png", "url": "https://www.instagram.com/p/DSFGMbqiOaI/?img_index=1" },
-      { "image": "images/Post 4.png", "url": "https://www.instagram.com/p/DWTlBGuiOhK/?img_index=1" },
-      { "image": "images/Post 5.png", "url": "https://www.instagram.com/p/DWgZToaiEns/?img_index=1" },
-      { "image": "images/Post 6.png", "url": "https://www.instagram.com/p/DWZH9eRiGHu/?img_index=1" }
+      {
+        "image": "images/Post 1.png",
+        "url": "https://www.instagram.com/p/DQQ_L69iEA-/?img_index=1"
+      },
+      {
+        "image": "images/Post 2.png",
+        "url": "https://www.instagram.com/p/DUx7QIOCCf_/?img_index=1"
+      },
+      {
+        "image": "images/Post 3.png",
+        "url": "https://www.instagram.com/p/DSFGMbqiOaI/?img_index=1"
+      },
+      {
+        "image": "images/Post 4.png",
+        "url": "https://www.instagram.com/p/DWTlBGuiOhK/?img_index=1"
+      },
+      {
+        "image": "images/Post 5.png",
+        "url": "https://www.instagram.com/p/DWgZToaiEns/?img_index=1"
+      },
+      {
+        "image": "images/Post 6.png",
+        "url": "https://www.instagram.com/p/DWZH9eRiGHu/?img_index=1"
+      }
     ]
   },
   "contact": {
-    "title": "Lass uns sprechen",
-    "text": "Du möchtest mehr über mein Coaching erfahren oder ein unverbindliches Erstgespräch vereinbaren? Ich freue mich auf deine Nachricht!",
+    "title": "Lass uns drüber reden",
+    "text": "Du möchtest mehr über mein Coaching erfahren oder ein unverbindliches Erstgespräch vereinbaren? Ich freue mich auf deine Nachricht! (Persönliche Antwort innerhalb von 48 Std.)",
     "email": "kontakt@constanze-hevelke.de",
     "phone": "+49 (0) 155 62374107",
     "location": "Neumarkt i.d.Opf.",
